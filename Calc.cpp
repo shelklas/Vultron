@@ -8,7 +8,7 @@ namespace vultron
 {
 	double calcDistance(std::pair<double, double> loc1, std::pair<double, double> loc2)
 	{
-		double R = 6378137;
+		double R = 6371000;
 		double phi1 = utility::toRadians(loc1.first);
 		double phi2 = utility::toRadians(loc2.first);
 		double deltaPhi = utility::toRadians(loc2.first - loc1.first);
