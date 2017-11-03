@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE(multi_distance_many_point_large_test)
 	path.push_back(std::make_pair(33.94336, -118.30078));
 	path.push_back(std::make_pair(51.78144, -125.50781));
 	path.push_back(std::make_pair(43.96119, -79.18945));
-	BOOST_CHECK_CLOSE(11'610'135, vultron::calcDistance(path), 0.01);
+	BOOST_CHECK_CLOSE(11'610'135, vultron::calcDistance(path), 0.1);
 }
 
 BOOST_AUTO_TEST_CASE(multi_distance_one_point_test)

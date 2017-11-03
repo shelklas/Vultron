@@ -28,4 +28,11 @@ namespace vultron
 			totalPathLength += calcDistance(*it, *(it+1));
 		return totalPathLength;
 	}
+	double calcBearing(std::pair<double, double> loc1, std::pair<double, double> loc2)
+	{
+		double y = sin(loc2.second - loc1.second) * cos(loc2.first);
+		double x = cos(loc1.first) * sin(loc2.first) - sin(loc1.first) * cos(loc2.first) * cos(loc2.second - loc1.second);
+		double bearing = utility::toDegrees(atan2(y, x));
+		return bearing;
+	}
 }
