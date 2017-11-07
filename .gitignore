@@ -1,7 +1,12 @@
 *.obj
+<<<<<<< HEAD
 
 *.tlog
 
 *.vcxproj
 
+=======
+*.tlog
+*.vcxproj
+>>>>>>> c4be0c7f455bd1c8eef4a1d783295a7c7e69767d
 *.vcxproj.filters
