@@ -1,4 +1,4 @@
-.obj
-.tlog
-.vcxproj
-.vcxproj.filters
+*.obj
+*.tlog
+*.vcxproj
+*.vcxproj.filters
