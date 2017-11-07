@@ -66,7 +66,24 @@ BOOST_AUTO_TEST_CASE(single_bearing_test)
 
 BOOST_AUTO_TEST_CASE(multi_bearing_test)
 {
-	
+	//FMS fms;
+	//std::vector<std::pair<double, double>> path;
+	//path.push_back(std::make_pair(43.77109, -79.71680)); // Starting Point
+	//path.push_back(std::make_pair(22.83695, -82.44141));
+	//path.push_back(std::make_pair(33.94336, -118.30078));
+	//path.push_back(std::make_pair(51.78144, -125.50781));
+	//path.push_back(std::make_pair(43.96119, -79.18945));
+	//fms.setRoute(path);
+	//std::vector<double> lengths = calcTripDistance(path);
+	//std::vector<double> bearings = calcTripBearing(path);
+	//std::cout << "Distances: " << std::endl;
+	//for (std::vector<double>::iterator it = lengths.begin(); it != lengths.end(); ++it)
+	//	std::cout << utility::toKilometer(*it) << std::endl;
+	//std::cout << std::endl;
+	//std::cout << "Bearings: " << std::endl;
+	//for (std::vector<double>::iterator it = bearings.begin(); it != bearings.end(); ++it)
+	//	std::cout << *it << std::endl;
+	//std::cout << std::endl;
 }
 
 BOOST_AUTO_TEST_CASE(waypoint_error_thrown)
