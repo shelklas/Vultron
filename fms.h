@@ -107,5 +107,6 @@ namespace vultron
 
 	double calcVelocity(std::vector<std::pair<double, double>> const & elapsedPath, double const & elapsedTime);
 	double calcBearing(std::pair<double,double> const & loc1,std::pair<double,double> const & loc2);
+	std::vector<double> calcTripBearing(std::vector<std::pair<double, double>> const & path);
 
 }

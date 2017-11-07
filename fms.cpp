@@ -30,7 +30,7 @@ namespace vultron
 	std::vector<double> calcTripDistance(std::vector<std::pair<double, double>> const & path)
 	{
 		std::vector<double> trip;
-		for (std::vector<std::pair<double,double>>::const_iterator it = path.begin(); it != path.end(); ++it)
+		for (std::vector<std::pair<double,double>>::const_iterator it = path.begin(); it != path.end()-1; ++it)
 			trip.push_back(calcDistance(*it, *(it + 1)));
 		return trip;
 	}
@@ -46,5 +46,12 @@ namespace vultron
 		double x = cos(loc1.first) * sin(loc2.first) - sin(loc1.first) * cos(loc2.first) * cos(loc2.second - loc1.second);
 		double bearing = utility::toDegrees(atan2(y, x));
 		return bearing;
+	}
+	std::vector<double> calcTripBearing(std::vector<std::pair<double,double>> const & path)
+	{
+		std::vector<double> tripBearing;
+		for (std::vector<std::pair<double, double>>::const_iterator it = path.begin(); it != path.end() - 1; ++it)
+			tripBearing.push_back(calcBearing(*it, *(it + 1)));
+		return tripBearing;
 	}
 }
