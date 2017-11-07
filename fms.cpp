@@ -42,10 +42,14 @@ namespace vultron
 	}
 	double calcBearing(std::pair<double, double> const & loc1, std::pair<double, double> const & loc2)
 	{
-		double y = sin(loc2.second - loc1.second) * cos(loc2.first);
-		double x = cos(loc1.first) * sin(loc2.first) - sin(loc1.first) * cos(loc2.first) * cos(loc2.second - loc1.second);
+		double phi1 = utility::toRadians(loc1.first);
+		double phi2 = utility::toRadians(loc2.first);
+		double deltaLambda = utility::toRadians(loc2.second - loc1.second);
+
+		double y = sin(deltaLambda) * cos(phi2);
+		double x = cos(phi1) * sin(phi2) - sin(phi1) * cos(phi2) * cos(deltaLambda);
 		double bearing = utility::toDegrees(atan2(y, x));
-		return bearing;
+		return utility::mod((bearing + 360), 360); // Normalize from [-180..180] to [0..360]
 	}
 	std::vector<double> calcTripBearing(std::vector<std::pair<double,double>> const & path)
 	{

@@ -3,6 +3,7 @@
 #include <boost/test/auto_unit_test.hpp>
 #include <vector>
 #include <iostream>
+#include "utility.h"
 
 using namespace vultron;
 BOOST_AUTO_TEST_CASE(single_distance_test)
@@ -58,7 +59,14 @@ BOOST_AUTO_TEST_CASE(multi_distance_no_point_test)
 BOOST_AUTO_TEST_CASE(single_bearing_test)
 {
 	std::vector<std::pair<double, double>> path;
-	BOOST_CHECK_EQUAL(24.54650859508968, calcBearing(std::make_pair(43.012618126753544, -81.19999408721924), std::make_pair(43.37311218382002, -80.97335815429688)), 1);
+	BOOST_CHECK_CLOSE(24.54650859508968, calcBearing(std::make_pair(43.012618126753544, -81.19999408721924), std::make_pair(43.37311218382002, -80.97335815429688)), .1);
+	BOOST_CHECK_CLOSE(57.36, calcBearing(std::make_pair(40.76, -73.984), std::make_pair(41.89, 12.492)), .1);
+	//BOOST_CHECK_EQUAL(6886, utility::toKilometer(calcDistance(std::make_pair(40.76, -73.984), std::make_pair(41.89, 12.492))));
+}
+
+BOOST_AUTO_TEST_CASE(multi_bearing_test)
+{
+	
 }
 
 BOOST_AUTO_TEST_CASE(waypoint_error_thrown)
