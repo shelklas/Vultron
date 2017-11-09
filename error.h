@@ -16,7 +16,7 @@ namespace vultron
 		error(std::string message, std::string classname, int line) :_message(message), _classname(classname), _line(line){}
 		std::string toString()
 		{
-			return "Message: " + _message + " In class " + _classname + ".";
+			return "MESSAGE: " + _message + "\nCLASS: " + _classname + ".\nLINE: " + std::to_string(_line);
 		}
 	};
 }
