@@ -1,3 +1,9 @@
+/*
+* Name: Sheldon Klassen
+* Class: utility.cpp
+* Description:
+*/
+
 #include "utility.h"
 #include <cmath>
 

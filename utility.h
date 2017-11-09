@@ -1,3 +1,9 @@
+/*
+* Name: Sheldon Klassen
+* Class: utility.h
+* Description:
+*/
+
 #pragma once
 namespace utility
 {

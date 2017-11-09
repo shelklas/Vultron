@@ -1,3 +1,9 @@
+/*
+ * Name: Sheldon Klassen
+ * Class: fms.h
+ * Description: 
+ */
+
 #pragma once
 #include <utility>
 #include <vector>
@@ -11,28 +17,45 @@ namespace vultron
 	// Helper functions
 
 	/*
-	@Name: calcDistance(pair<double,double>,pair<double,double>)
+	@Name: calcDistance(tuple<double,double,double>,tuple<double,double,double>)
 	@Return: Distance in meters [double]
 	@Get: Two decimal gps longitude and latitude pairs [std::pair<double,double>,std::pair<double,double>]
 	*/
 	double calcDistance(std::tuple<double, double, double > const & loc1, std::tuple<double, double, double> const & loc2);
 
 	/*
-	@Name: calcTotalDistance(vector<pair<double,double>>)
+	@Name: calcTotalDistance(vector<tuple<double,double,double>>)
 	@Return: Total route distance in meters [double]
 	@Get: Vector of decimal gps latitude and longitude points
 	*/
 	double calcTotalDistance(std::vector<std::tuple<double, double, double>> const & path);
 
 	/*
-	@Name: calcTripDistance(vector<pair<double,double>>)
+	@Name: calcTripDistance(vector<tuple<double,double,double>>)
 	@Return: Individual path lengths for entire route [vector<double>]
 	@Get: Vector of decimal gps latitude and longitude points
 	*/
 	std::vector<double> calcTripDistance(std::vector<std::tuple<double, double, double>> const & path);
 
+	/*
+	@Name: calcVelocity(vector<tuple<double,double,double>>,double)
+	@Return: Speed in [m/s]
+	@Get: Vector of path aircraft has been in given time frame. Also gets elapsed time passed since last update.
+	 */
 	double calcVelocity(std::vector<std::tuple<double, double, double>> const & elapsedPath, double const & elapsedTime);
+
+	/*
+	@Name: calcBearing(tuple<double,double,double>,tuple<double,double,double>)
+	@Return: Bearing in [Degrees]
+	@Get: Two decimal gps latitude and longitude points
+	*/
 	double calcBearing(std::tuple<double, double, double> const & loc1, std::tuple<double, double, double> const & loc2);
+
+	/*
+	@Name: calcTripBearing(vector<tuple<double,double,double>>,vector<tuple<double,double,double>>)
+	@Return: Vector of Bearings in [Degrees]
+	@Get: Vector of Bearing for entire route
+	*/
 	std::vector<double> calcTripBearing(std::vector<std::tuple<double, double, double>> const & path);
 
 
@@ -116,7 +139,7 @@ namespace vultron
 			if (bearing <= 360 && bearing >= 0)
 				_bearing = bearing;
 			else
-				throw error("Bearing ["+ std::to_string(bearing) + "] is beyond the acceptable range.", __FUNCSIG__, __LINE__);
+				throw error("Bearing [" + std::to_string(bearing) + "] is beyond the acceptable range.", __FUNCSIG__, __LINE__);
 		}
 		double getBearing() { return _bearing; }
 

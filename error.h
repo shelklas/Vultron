@@ -1,8 +1,12 @@
+/*
+* Name: Sheldon Klassen
+* Class: error.h
+* Description:
+*/
+
 #pragma once
 #include <string>
 #include <iostream>
-
-//#include "fms.h"
 
 namespace vultron
 {
