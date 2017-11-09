@@ -17,6 +17,7 @@ namespace vultron
 	}
 	void FMS::setRoute(std::vector<std::tuple<double, double, double>> const & route)
 	{
+		// User may give a blank route
 		if (route.size() == 0) { return; }
 		// Check if waypoints are less than set minimum distance apart
 		for (std::vector<std::tuple<double, double, double>>::const_iterator it = route.begin(); it != route.end() - 1; ++it)
@@ -37,9 +38,9 @@ namespace vultron
 		double const deltaPhi = utility::toRadians(std::get<0>(loc2) - std::get<0>(loc1));
 		double const deltaLambda = utility::toRadians(std::get<1>(loc2) - std::get<1>(loc1));
 
-		double a = sin(deltaPhi / 2) * sin(deltaPhi / 2) + cos(phi1) * cos(phi2) * sin(deltaLambda / 2) * sin(deltaLambda / 2);
-		double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-		double d = R * c;
+		double const a = sin(deltaPhi / 2) * sin(deltaPhi / 2) + cos(phi1) * cos(phi2) * sin(deltaLambda / 2) * sin(deltaLambda / 2);
+		double const c = 2 * atan2(sqrt(a), sqrt(1 - a));
+		double const d = R * c;
 		return d;
 	}
 	double calcTotalDistance(std::vector<std::tuple<double, double, double>> const & path)

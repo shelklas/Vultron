@@ -107,7 +107,7 @@ namespace vultron
 			if ((std::get<0>(loc) <= 90 && std::get<0>(loc) >= -90) && (std::get<1>(loc) <= 180 && std::get<1>(loc) >= -180))
 				_loc = loc;
 			else
-				throw error("The set location is beyond the acceptable range.", __FUNCSIG__, __LINE__);
+				throw error("Location [" + std::to_string(std::get<0>(loc)) + "] [" + std::to_string(std::get<1>(loc)) + "] is beyond the acceptable range.", __FUNCSIG__, __LINE__);
 		}
 		std::tuple<double, double, double> getLoc() { return _loc; }
 
@@ -116,7 +116,7 @@ namespace vultron
 			if (bearing <= 360 && bearing >= 0)
 				_bearing = bearing;
 			else
-				throw error("The set bearing is beyond the acceptable range.", __FUNCSIG__, __LINE__);
+				throw error("Bearing ["+ std::to_string(bearing) + "] is beyond the acceptable range.", __FUNCSIG__, __LINE__);
 		}
 		double getBearing() { return _bearing; }
 
