@@ -93,8 +93,8 @@ namespace vultron
 
 		void clearRoute() { _route.clear(); }
 
-		void setHeight(double height) { std::get<2>(_loc) = height; }
-		double getHeight() { return std::get<2>(_loc); }
+		void setAltitude(double height) { std::get<2>(_loc) = height; }
+		double getAltitude() { return std::get<2>(_loc); }
 
 		void setVelocity(double velocity) { _velocity = velocity; }
 		double getVelocity() { return _velocity; }

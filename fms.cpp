@@ -32,15 +32,20 @@ namespace vultron
 	}
 	double calcDistance(std::tuple<double, double, double> const & loc1, std::tuple<double, double, double> const &  loc2)
 	{
+		// Calculate distance using Haversine formula
 		double const R = 6371000; // Radius of earth
 		double const phi1 = utility::toRadians(std::get<0>(loc1));
 		double const phi2 = utility::toRadians(std::get<0>(loc2));
 		double const deltaPhi = utility::toRadians(std::get<0>(loc2) - std::get<0>(loc1));
 		double const deltaLambda = utility::toRadians(std::get<1>(loc2) - std::get<1>(loc1));
-
 		double const a = sin(deltaPhi / 2) * sin(deltaPhi / 2) + cos(phi1) * cos(phi2) * sin(deltaLambda / 2) * sin(deltaLambda / 2);
 		double const c = 2 * atan2(sqrt(a), sqrt(1 - a));
-		double const d = R * c;
+		double d = R * c;
+
+		// Adjust for change in altitude distance using Pythagoras' Theorem 
+		double const deltaAltitude = std::abs(std::get<2>(loc2) - std::get<2>(loc1));
+		d = std::sqrt(std::pow(deltaAltitude, 2) + std::pow(d, 2));
+
 		return d;
 	}
 	double calcTotalDistance(std::vector<std::tuple<double, double, double>> const & path)

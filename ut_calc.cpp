@@ -25,7 +25,7 @@ BOOST_AUTO_TEST_CASE(multi_distance_many_point_small_test)
 	path.push_back(std::make_tuple(43.40792, -80.95276, 10));
 	path.push_back(std::make_tuple(43.38104, -80.95920, 10));
 	fms.setRoute(path);
-	BOOST_CHECK_CLOSE(7'966, calcTotalDistance(fms.getRoute()), 0.1);
+	BOOST_CHECK_CLOSE(7'966, calcTotalDistance(fms.getRoute()), 0.06);
 }
 BOOST_AUTO_TEST_CASE(multi_distance_many_point_large_test)
 {
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(multi_distance_many_point_large_test)
 	path.push_back(std::make_tuple(51.78144, -125.50781, 10));
 	path.push_back(std::make_tuple(43.96119, -79.18945, 10));
 	fms.setRoute(path);
-	BOOST_CHECK_CLOSE(11'610'135, calcTotalDistance(fms.getRoute()), 0.1);
+	BOOST_CHECK_CLOSE(11610.135, utility::toKilometer(calcTotalDistance(fms.getRoute())), 0.08);
 }
 
 BOOST_AUTO_TEST_CASE(multi_distance_one_point_test)
