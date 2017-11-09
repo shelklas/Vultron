@@ -1,12 +1,32 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
 *.obj
-<<<<<<< HEAD
 
-*.tlog
+# Precompiled Headers
+*.gch
+*.pch
 
-*.vcxproj
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
 
-=======
-*.tlog
-*.vcxproj
->>>>>>> c4be0c7f455bd1c8eef4a1d783295a7c7e69767d
-*.vcxproj.filters
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
