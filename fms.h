@@ -75,7 +75,7 @@ namespace vultron
 
 		// Current speed of aircraft. 
 		// Stored as:
-		// m/s [-100..100]
+		// m/s [no limit (except for speed of light)]
 		double _velocity = 0;
 
 		// Pitch of aircraft. 
