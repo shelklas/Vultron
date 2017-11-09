@@ -34,7 +34,7 @@ namespace vultron
 		// Check if waypoints are outside range of longitude and latitude coordinates
 		for (std::vector<std::tuple<double, double, double>>::const_iterator it = route.begin(); it != route.end(); ++it)
 			if (!((std::get<0>(*it) <= 90 && std::get<0>(*it) >= -90) && (std::get<1>(*it) <= 180 && std::get<1>(*it) >= -180)))
-				throw error("Waypoint [" + std::to_string(std::distance(route.begin(), it)) + "] with values [" + std::to_string(std::get<0>(*it)) + "] [" + std::to_string(std::get<1>(*it)) + "] is beyond the acceptable range.", __FUNCSIG__, __LINE__);
+				throw error("Waypoint [" + std::to_string(std::distance(route.begin(), it)) + "] with values [" + std::to_string(std::get<0>(*it)) + "] [" + std::to_string(std::get<1>(*it)) + "] is beyond the acceptable range of [-90..90] [-180..180].", __FUNCSIG__, __LINE__);
 		_route = route;
 	}
 	double calcDistance(std::tuple<double, double, double> const & loc1, std::tuple<double, double, double> const &  loc2)
@@ -49,10 +49,9 @@ namespace vultron
 		double const c = 2 * atan2(sqrt(a), sqrt(1 - a));
 		double d = R * c;
 
-		// Adjust for change in altitude distance using Pythagoras' Theorem 
+		// Adjust distance for change in altitude using Pythagoras' Theorem 
 		double const deltaAltitude = std::abs(std::get<2>(loc2) - std::get<2>(loc1));
 		d = std::sqrt(std::pow(deltaAltitude, 2) + std::pow(d, 2));
-
 		return d;
 	}
 	double calcTotalDistance(std::vector<std::tuple<double, double, double>> const & path)

@@ -113,8 +113,8 @@ namespace vultron
 
 		void setRoute(std::vector<std::tuple<double, double, double>> const & route);
 		std::vector<std::tuple<double, double, double>> getRoute() { return _route; }
-
 		void clearRoute() { _route.clear(); }
+		void addNewWaypoint(){}
 
 		void setAltitude(double height) { std::get<2>(_loc) = height; }
 		double getAltitude() { return std::get<2>(_loc); }
@@ -130,7 +130,7 @@ namespace vultron
 			if ((std::get<0>(loc) <= 90 && std::get<0>(loc) >= -90) && (std::get<1>(loc) <= 180 && std::get<1>(loc) >= -180))
 				_loc = loc;
 			else
-				throw error("Location [" + std::to_string(std::get<0>(loc)) + "] [" + std::to_string(std::get<1>(loc)) + "] is beyond the acceptable range.", __FUNCSIG__, __LINE__);
+				throw error("Location [" + std::to_string(std::get<0>(loc)) + "] [" + std::to_string(std::get<1>(loc)) + "] is beyond the acceptable range of [-90..90] [-180..180].", __FUNCSIG__, __LINE__);
 		}
 		std::tuple<double, double, double> getLoc() { return _loc; }
 
@@ -139,7 +139,7 @@ namespace vultron
 			if (bearing <= 360 && bearing >= 0)
 				_bearing = bearing;
 			else
-				throw error("Bearing [" + std::to_string(bearing) + "] is beyond the acceptable range.", __FUNCSIG__, __LINE__);
+				throw error("Bearing [" + std::to_string(bearing) + "] is beyond the acceptable range of [0..360].", __FUNCSIG__, __LINE__);
 		}
 		double getBearing() { return _bearing; }
 
@@ -148,14 +148,14 @@ namespace vultron
 			if (static_cast<size_t>(_waypoint) < _route.size())
 				_waypoint++;
 			else
-				throw error("Waypoint beyond route size.", __FUNCSIG__, __LINE__);
+				throw error("Waypoint ["+std::to_string(_waypoint+1)+"] beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCSIG__, __LINE__);
 		}
 		void setWaypoint(int waypoint)
 		{
 			if (waypoint <= _route.size() && (waypoint >= 0))
 				_waypoint = waypoint;
 			else
-				throw error("Waypoint beyond route size.", __FUNCSIG__, __LINE__);
+				throw error("Waypoint ["+std::to_string(waypoint)+"] beyond route size of [" +std::to_string(_route.size())+ "].", __FUNCSIG__, __LINE__);
 		}
 		int getWaypoint() { return _waypoint; }
 

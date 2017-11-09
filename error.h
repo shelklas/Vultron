@@ -14,13 +14,13 @@ namespace vultron
 	{
 	private:
 		std::string _message;
-		std::string _classname;
+		std::string _function;
 		int _line;
 	public:
-		error(std::string message, std::string classname, int line) :_message(message), _classname(classname), _line(line){}
+		error(std::string message, std::string function, int line) :_message(message), _function(function), _line(line){}
 		std::string toString()
 		{
-			return "MESSAGE: " + _message + "\nCLASS: " + _classname + ".\nLINE: " + std::to_string(_line);
+			return "MESSAGE: " + _message + "\nFUNCTION: " + _function + ".\nLINE: " + std::to_string(_line);
 		}
 	};
 }
