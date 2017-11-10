@@ -5,8 +5,8 @@
 */
 
 #pragma once
-#include <tuple>
 #include <vector>
+#include "fms.h"
 
 namespace utility
 {
@@ -15,5 +15,5 @@ namespace utility
 	double toMeter(double kilometer);
 	double toKilometer(double meter);
 	double mod(double x, double y);
-	void printRoutePositions(std::vector<std::tuple<double,double,double>> & route);
+	void printRoutePositions(vultron::route_t & route);
 }
