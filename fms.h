@@ -12,6 +12,9 @@
 
 namespace vultron
 {
+	using pos_t = std::tuple<double, double, double>;
+	using route_t = std::vector<pos_t>;
+	
 	double constexpr MIN_DISTANCE_BETWEEN_WAYPOINTS = 10;
 
 	// Helper functions
@@ -21,42 +24,42 @@ namespace vultron
 	@Return: Distance in meters [double]
 	@Get: Two decimal gps longitude and latitude pairs [std::pair<double,double>,std::pair<double,double>]
 	*/
-	double calcDistance(std::tuple<double, double, double > const & loc1, std::tuple<double, double, double> const & loc2);
+	double calcDistance(pos_t const & loc1, pos_t const & loc2);
 
 	/*
 	@Name: calcTotalDistance(vector<tuple<double,double,double>>)
 	@Return: Total route distance in meters [double]
 	@Get: Vector of decimal gps latitude and longitude points
 	*/
-	double calcTotalDistance(std::vector<std::tuple<double, double, double>> const & path);
+	double calcTotalDistance(route_t const & path);
 
 	/*
 	@Name: calcTripDistance(vector<tuple<double,double,double>>)
 	@Return: Individual path lengths for entire route [vector<double>]
 	@Get: Vector of decimal gps latitude and longitude points
 	*/
-	std::vector<double> calcTripDistance(std::vector<std::tuple<double, double, double>> const & path);
+	std::vector<double> calcTripDistance(route_t const & path);
 
 	/*
 	@Name: calcVelocity(vector<tuple<double,double,double>>,double)
 	@Return: Speed in [m/s]
 	@Get: Vector of path aircraft has been in given time frame. Also gets elapsed time passed since last update.
 	 */
-	double calcVelocity(std::vector<std::tuple<double, double, double>> const & elapsedPath, double const & elapsedTime);
+	double calcVelocity(route_t const & elapsedPath, double const & elapsedTime);
 
 	/*
 	@Name: calcBearing(tuple<double,double,double>,tuple<double,double,double>)
 	@Return: Bearing in [Degrees]
 	@Get: Two decimal gps latitude and longitude points
 	*/
-	double calcBearing(std::tuple<double, double, double> const & loc1, std::tuple<double, double, double> const & loc2);
+	double calcBearing(pos_t const & loc1, pos_t const & loc2);
 
 	/*
 	@Name: calcTripBearing(vector<tuple<double,double,double>>,vector<tuple<double,double,double>>)
 	@Return: Vector of Bearings in [Degrees]
 	@Get: Vector of Bearing for entire route
 	*/
-	std::vector<double> calcTripBearing(std::vector<std::tuple<double, double, double>> const & path);
+	std::vector<double> calcTripBearing(route_t const & path);
 
 
 	class FMS
@@ -67,7 +70,7 @@ namespace vultron
 		// Latitude(degrees) [-90..90]
 		// Longitude(degrees) [-180..180]
 		// Height(m) [no limits] ( Route waypoints MUST be at least 10m (meters) apart. )
-		std::vector<std::tuple<double, double, double>> _route;
+		route_t _route;
 
 		// Waypoint that aircraft is in route to.
 		// Stored as:
@@ -84,7 +87,7 @@ namespace vultron
 		// Latitude(degrees) [-90..90] 
 		// Longitude(degrees) [-180..180]
 		// Height(m) [no limits]
-		std::tuple<double, double, double> _loc;
+		pos_t _loc;
 
 		// Current bearing of aircraft. 
 		// Stored as:
@@ -107,14 +110,14 @@ namespace vultron
 		double _pitch = 0;
 
 	public:
-		FMS(std::vector<std::tuple <double, double, double>> const & route, std::tuple<double, double, double> const & loc, double const & bearing);
-		FMS(std::vector<std::tuple<double, double, double>> const & route);
+		FMS(route_t const & route, pos_t const & loc, double const & bearing);
+		FMS(route_t const & route);
 		FMS() {} // For dev testing
 
-		void setRoute(std::vector<std::tuple<double, double, double>> const & route);
-		std::vector<std::tuple<double, double, double>> getRoute() { return _route; }
+		void setRoute(route_t const & route);
+		route_t getRoute() { return _route; }
 		void clearRoute() { _route.clear(); }
-		void insertNewWaypoint(std::tuple<double, double, double> waypointLoc, int waypoint);
+		void insertNewWaypoint(pos_t waypointLoc, int waypoint);
 
 		void setAltitude(double height) { std::get<2>(_loc) = height; }
 		double getAltitude() { return std::get<2>(_loc); }
@@ -125,14 +128,14 @@ namespace vultron
 		void setPitch(double pitch) { _pitch = pitch; }
 		double getPitch() { return _pitch; }
 
-		void setLoc(std::tuple<double, double, double> const loc)
+		void setLoc(pos_t const loc)
 		{
 			if ((std::get<0>(loc) <= 90 && std::get<0>(loc) >= -90) && (std::get<1>(loc) <= 180 && std::get<1>(loc) >= -180))
 				_loc = loc;
 			else
 				throw error("Location [" + std::to_string(std::get<0>(loc)) + "] [" + std::to_string(std::get<1>(loc)) + "] is beyond the acceptable range of [-90..90] [-180..180].", __FUNCSIG__, __LINE__);
 		}
-		std::tuple<double, double, double> getLoc() { return _loc; }
+		pos_t getLoc() { return _loc; }
 
 		void setBearing(double bearing)
 		{

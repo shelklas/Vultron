@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE(multi_distance_many_point_large_test)
 BOOST_AUTO_TEST_CASE(multi_distance_one_point_test)
 {
 	FMS fms;
-	std::vector<std::tuple<double, double, double>> path;
+	route_t path;
 	path.push_back(std::make_tuple(43.37999, -80.94842, 10)); // Starting Point
 	fms.setRoute(path);
 	BOOST_CHECK_EQUAL(0, calcTotalDistance(fms.getRoute()));
@@ -52,14 +52,14 @@ BOOST_AUTO_TEST_CASE(multi_distance_one_point_test)
 BOOST_AUTO_TEST_CASE(multi_distance_no_point_test)
 {
 	FMS fms;
-	std::vector<std::tuple<double, double, double>> path;
+	route_t path;
 	fms.setRoute(path);
 	BOOST_CHECK_EQUAL(0, calcTotalDistance(fms.getRoute()));
 }
 
 BOOST_AUTO_TEST_CASE(single_bearing_test)
 {
-	std::vector<std::tuple<double, double, double>> path;
+	route_t path;
 	BOOST_CHECK_CLOSE(24.54650859508968, calcBearing(std::make_tuple(43.012618126753544, -81.19999408721924, 10), std::make_tuple(43.37311218382002, -80.97335815429688, 10)), .1);
 	BOOST_CHECK_CLOSE(57.36, calcBearing(std::make_tuple(40.76, -73.984, 10), std::make_tuple(41.89, 12.492, 10)), .1);
 	//BOOST_CHECK_EQUAL(6886, utility::toKilometer(calcDistance(std::make_pair(40.76, -73.984), std::make_pair(41.89, 12.492))));
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE(single_bearing_test)
 BOOST_AUTO_TEST_CASE(multi_bearing_test)
 {
 	FMS fms;
-	std::vector<std::tuple<double, double, double>> path;
+	route_t path;
 	path.push_back(std::make_tuple(43.77109, -79.71680, 10)); // Starting Point
 	path.push_back(std::make_tuple(22.83695, -82.44141, 10));
 	path.push_back(std::make_tuple(33.94336, -118.30078, 10));
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE(waypoint_error_thrown)
 	FMS fms;
 	BOOST_CHECK_THROW(fms.nextWaypoint(), error);
 	BOOST_CHECK_THROW(fms.setWaypoint(6), error);
-	std::vector<std::tuple<double, double, double>> path;
+	route_t path;
 	path.push_back(std::make_tuple(1, 1, 10));
 	path.push_back(std::make_tuple(2, 2, 10));
 	path.push_back(std::make_tuple(3, 3, 10));
@@ -161,7 +161,7 @@ BOOST_AUTO_TEST_CASE(setLoc_in_range)
 BOOST_AUTO_TEST_CASE(clear_route)
 {
 	FMS fms;
-	std::vector<std::tuple<double, double, double>> path;
+	route_t path;
 	path.push_back(std::make_tuple(22.83695, -82.44141, 10));
 	path.push_back(std::make_tuple(33.94336, -118.30078, 10));
 	path.push_back(std::make_tuple(51.78144, -125.50781, 10));
@@ -173,7 +173,7 @@ BOOST_AUTO_TEST_CASE(clear_route)
 }
 BOOST_AUTO_TEST_CASE(fms_one_arg_class_constructor)
 {
-	std::vector<std::tuple<double, double, double>> path;
+	route_t path;
 	path.push_back(std::make_tuple(22.83695, -82.44141, 10));
 	path.push_back(std::make_tuple(33.94336, -118.30078, 10));
 	path.push_back(std::make_tuple(51.78144, -125.50781, 10));
@@ -184,7 +184,7 @@ BOOST_AUTO_TEST_CASE(fms_one_arg_class_constructor)
 }
 BOOST_AUTO_TEST_CASE(route_lengths_less_than_min_size_apart)
 {
-	std::vector<std::tuple<double, double, double>> path;
+	route_t path;
 	// Same position
 	path.push_back(std::make_tuple(22.83695, -82.44141, 10));
 	path.push_back(std::make_tuple(22.83695, -82.44141, 10));
@@ -204,7 +204,7 @@ BOOST_AUTO_TEST_CASE(route_lengths_less_than_min_size_apart)
 }
 BOOST_AUTO_TEST_CASE(route_insert_waypoint)
 {
-	std::vector<std::tuple<double, double, double>> path;
+	route_t path;
 	// Route with 4 waypoints
 	path.push_back(std::make_tuple(22.83695, -82.44141, 10)); 
 	path.push_back(std::make_tuple(33.94336, -118.30078, 10));
