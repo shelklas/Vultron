@@ -1,7 +1,7 @@
 /*
  * Name: Sheldon Klassen
  * Class: fms.h
- * Description: 
+ * Description:
  */
 
 #pragma once
@@ -107,14 +107,14 @@ namespace vultron
 		double _pitch = 0;
 
 	public:
-		FMS(std::vector < std::tuple <double, double, double>> const & route, std::tuple<double, double, double> const & loc, double const & bearing);
+		FMS(std::vector<std::tuple <double, double, double>> const & route, std::tuple<double, double, double> const & loc, double const & bearing);
 		FMS(std::vector<std::tuple<double, double, double>> const & route);
 		FMS() {} // For dev testing
 
 		void setRoute(std::vector<std::tuple<double, double, double>> const & route);
 		std::vector<std::tuple<double, double, double>> getRoute() { return _route; }
 		void clearRoute() { _route.clear(); }
-		void addNewWaypoint(){}
+		void insertNewWaypoint(std::tuple<double, double, double> waypointLoc, int waypoint);
 
 		void setAltitude(double height) { std::get<2>(_loc) = height; }
 		double getAltitude() { return std::get<2>(_loc); }
@@ -148,14 +148,14 @@ namespace vultron
 			if (static_cast<size_t>(_waypoint) < _route.size())
 				_waypoint++;
 			else
-				throw error("Waypoint ["+std::to_string(_waypoint+1)+"] beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCSIG__, __LINE__);
+				throw error("Waypoint [" + std::to_string(_waypoint + 1) + "] beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCSIG__, __LINE__);
 		}
 		void setWaypoint(int waypoint)
 		{
 			if (waypoint <= _route.size() && (waypoint >= 0))
 				_waypoint = waypoint;
 			else
-				throw error("Waypoint ["+std::to_string(waypoint)+"] beyond route size of [" +std::to_string(_route.size())+ "].", __FUNCSIG__, __LINE__);
+				throw error("Waypoint [" + std::to_string(waypoint) + "] beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCSIG__, __LINE__);
 		}
 		int getWaypoint() { return _waypoint; }
 

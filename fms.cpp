@@ -37,6 +37,30 @@ namespace vultron
 				throw error("Waypoint [" + std::to_string(std::distance(route.begin(), it)) + "] with values [" + std::to_string(std::get<0>(*it)) + "] [" + std::to_string(std::get<1>(*it)) + "] is beyond the acceptable range of [-90..90] [-180..180].", __FUNCSIG__, __LINE__);
 		_route = route;
 	}
+	void FMS::insertNewWaypoint(std::tuple<double, double, double> waypointLoc, int waypoint)
+	{
+		std::vector < std::tuple<double, double, double>> route = this->getRoute();
+		if (waypoint > route.size() || (waypoint < 0))
+			throw error("Waypoint [" + std::to_string(waypoint) + "] is beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCSIG__, __LINE__);
+		if (waypoint == 0)
+		{
+			if (calcDistance(waypointLoc, route[0]) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
+				throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and [1] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+		}
+		else if(waypoint == route.size())
+		{
+			if (calcDistance( route[route.size()-1],waypointLoc) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
+				throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and ["+std::to_string(route.size())+"] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+		}
+		else
+		{
+			for(size_t i = waypoint -1;i < waypoint +1;++i)
+				if (calcDistance(route[i], waypointLoc) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
+					throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and ["+std::to_string(i)+"] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+		}
+		_route.insert((_route.begin() + waypoint),waypointLoc);
+
+	}
 	double calcDistance(std::tuple<double, double, double> const & loc1, std::tuple<double, double, double> const &  loc2)
 	{
 		// Calculate distance using Haversine formula

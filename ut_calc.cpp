@@ -1,9 +1,10 @@
 #define BOOST_TEST_MODULE VultronUnitTest
 #include "fms.h"
+#include "utility.h"
 #include <boost/test/auto_unit_test.hpp>
 #include <vector>
 #include <iostream>
-#include "utility.h"
+
 
 using namespace vultron;
 BOOST_AUTO_TEST_CASE(single_distance_test)
@@ -200,4 +201,28 @@ BOOST_AUTO_TEST_CASE(route_lengths_less_than_min_size_apart)
 	path.push_back(std::make_tuple(43.37973, -80.96051, 10));
 	path.push_back(std::make_tuple(43.37973, -80.96041, 10));
 	BOOST_CHECK_THROW(FMS fms(path), error);
+}
+BOOST_AUTO_TEST_CASE(route_insert_waypoint)
+{
+	std::vector<std::tuple<double, double, double>> path;
+	// Route with 4 waypoints
+	path.push_back(std::make_tuple(22.83695, -82.44141, 10)); 
+	path.push_back(std::make_tuple(33.94336, -118.30078, 10));
+	path.push_back(std::make_tuple(51.78144, -125.50781, 10));
+	path.push_back(std::make_tuple(43.96119, -79.18945, 10));
+	FMS fms(path);
+
+	BOOST_CHECK_THROW(fms.insertNewWaypoint(std::make_tuple(22.83695, -82.44141, 10), -1), error);
+	BOOST_CHECK_THROW(fms.insertNewWaypoint(std::make_tuple(22.83695, -82.44141, 10), 6), error);
+	BOOST_CHECK_NO_THROW(fms.insertNewWaypoint(std::make_tuple(10.83695, -81.44141, 10), 4));
+	BOOST_CHECK_NO_THROW(fms.insertNewWaypoint(std::make_tuple(10.83695, -81.44141, 10), 0));
+
+	BOOST_CHECK_NO_THROW(fms.insertNewWaypoint(std::make_tuple(33.94336, -118.30065, 10), 2)); // Distance of 12m from NEXT
+	BOOST_CHECK_THROW(fms.insertNewWaypoint(std::make_tuple(33.94336, -118.30069, 10), 2),error); // Distance of 8m from NEXT
+
+	BOOST_CHECK_NO_THROW(fms.insertNewWaypoint(std::make_tuple(22.83695, -82.44152, 10), 2)); // Distance of 12m from BEFORE
+	BOOST_CHECK_THROW(fms.insertNewWaypoint(std::make_tuple(22.83695, -82.44133, 10), 2), error); // Distance of 8m from BEFORE
+
+	BOOST_CHECK_NO_THROW(fms.insertNewWaypoint(std::make_tuple(10.83695, -81.44152, 10), 0)); // Distance of 12m
+	BOOST_CHECK_THROW(fms.insertNewWaypoint(std::make_tuple(10.83695, -81.44159, 10), 0),error); // Distance of 8m
 }
