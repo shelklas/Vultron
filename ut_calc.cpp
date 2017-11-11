@@ -180,6 +180,8 @@ BOOST_AUTO_TEST_CASE(fms_one_arg_class_constructor)
 	BOOST_CHECK_NO_THROW(FMS fms(path));
 	FMS fms(path);
 	BOOST_CHECK_EQUAL(fms.getRoute().size(), 4);
+	for (route_t::iterator it = path.begin(); it != path.end(); ++it)
+		BOOST_CHECK(*it == fms.getRoute()[std::distance(path.begin(), it)]);
 }
 BOOST_AUTO_TEST_CASE(route_lengths_less_than_min_size_apart)
 {
