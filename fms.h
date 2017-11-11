@@ -12,6 +12,7 @@
 
 namespace vultron
 {
+	using axis_t = std::tuple<double, double, double>;
 	using pos_t = std::tuple<double, double, double>;
 	using route_t = std::vector<pos_t>;
 
@@ -89,10 +90,12 @@ namespace vultron
 		// Height(m) [no limits]
 		pos_t _loc;
 
-		// Current bearing of aircraft. 
+		// Current axis of aicraft.
 		// Stored as:
-		// Degrees [0..360]
-		double _bearing = 0;
+		// Heading in Degrees [0..360]
+		// Pitch in Degrees [-45..45]
+		// Roll in Degrees [-45..45]
+		axis_t _axis;
 
 		// Direction of next waypoint. With respect to current location. 
 		// Stored as:
@@ -104,10 +107,6 @@ namespace vultron
 		// m/s [no limit (except for speed of light)]
 		double _velocity = 0;
 
-		// Pitch of aircraft. 
-		// Stored as:
-		// Degrees [-90..90]
-		double _pitch = 0;
 
 	public:
 		FMS(route_t const & route, pos_t const & loc, double const & bearing);
@@ -126,8 +125,11 @@ namespace vultron
 		void setVelocity(double velocity) { _velocity = velocity; }
 		double getVelocity() { return _velocity; }
 
-		void setPitch(double pitch) { _pitch = pitch; }
-		double getPitch() { return _pitch; }
+		void setPitch(double pitch) { std::get<1>(_axis) = pitch; }
+		double getPitch() { return  std::get<1>(_axis); }
+
+		void setRoll(double roll) { std::get<2>(_axis) = roll; }
+		double getRoll() { return std::get<2>(_axis); }
 
 		void setLoc(pos_t const loc)
 		{
@@ -138,14 +140,14 @@ namespace vultron
 		}
 		pos_t getLoc() { return _loc; }
 
-		void setBearing(double bearing)
+		void setHeading(double bearing)
 		{
 			if (bearing <= 360 && bearing >= 0)
-				_bearing = bearing;
+				std::get<0>(_axis) = bearing;
 			else
 				throw error("Bearing [" + std::to_string(bearing) + "] is beyond the acceptable range of [0..360].", __FUNCSIG__, __LINE__);
 		}
-		double getBearing() { return _bearing; }
+		double getHeading() { return  std::get<0>(_axis); }
 
 		void nextWaypoint()
 		{

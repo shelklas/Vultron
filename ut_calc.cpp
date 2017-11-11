@@ -106,10 +106,10 @@ BOOST_AUTO_TEST_CASE(waypoint_error_thrown)
 BOOST_AUTO_TEST_CASE(bearing_error_thrown)
 {
 	FMS fms;
-	BOOST_CHECK_THROW(fms.setBearing(361), error);
-	BOOST_CHECK_THROW(fms.setBearing(-1), error);
-	BOOST_CHECK_NO_THROW(fms.setBearing(360));
-	BOOST_CHECK_NO_THROW(fms.setBearing(0));
+	BOOST_CHECK_THROW(fms.setHeading(361), error);
+	BOOST_CHECK_THROW(fms.setHeading(-1), error);
+	BOOST_CHECK_NO_THROW(fms.setHeading(360));
+	BOOST_CHECK_NO_THROW(fms.setHeading(0));
 }
 BOOST_AUTO_TEST_CASE(bearing_distance_function)
 {

@@ -15,7 +15,7 @@ namespace vultron
 	FMS::FMS(route_t const & route, pos_t const & loc, double const & bearing)
 	{
 		this->setRoute(route);
-		this->setBearing(bearing);
+		this->setHeading(bearing);
 		this->setLoc(loc);
 	}
 	FMS::FMS(route_t const & route)
