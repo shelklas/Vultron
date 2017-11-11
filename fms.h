@@ -14,7 +14,7 @@ namespace vultron
 {
 	using pos_t = std::tuple<double, double, double>;
 	using route_t = std::vector<pos_t>;
-	
+
 	double constexpr MIN_DISTANCE_BETWEEN_WAYPOINTS = 10;
 
 	// Helper functions
@@ -117,7 +117,8 @@ namespace vultron
 		void setRoute(route_t const & route);
 		route_t getRoute() { return _route; }
 		void clearRoute() { _route.clear(); }
-		void insertNewWaypoint(pos_t waypointLoc, int waypoint);
+		void insertWaypoint(pos_t waypointLoc, int waypoint);
+		void removeWaypoint(int waypoint);
 
 		void setAltitude(double height) { std::get<2>(_loc) = height; }
 		double getAltitude() { return std::get<2>(_loc); }

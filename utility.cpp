@@ -10,6 +10,7 @@
 #include <ostream>
 #include <string>
 #include <iostream>
+
 namespace utility
 {
 	double const PI = 3.141592653589793;

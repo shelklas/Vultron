@@ -37,7 +37,7 @@ namespace vultron
 				throw error("Waypoint [" + std::to_string(std::distance(route.begin(), it)) + "] with values [" + std::to_string(std::get<0>(*it)) + "] [" + std::to_string(std::get<1>(*it)) + "] is beyond the acceptable range of [-90..90] [-180..180].", __FUNCSIG__, __LINE__);
 		_route = route;
 	}
-	void FMS::insertNewWaypoint(pos_t waypointLoc, int waypoint)
+	void FMS::insertWaypoint(pos_t waypointLoc, int waypoint)
 	{
 		route_t route = this->getRoute();
 		if (waypoint > route.size() || (waypoint < 0))
@@ -60,6 +60,16 @@ namespace vultron
 		}
 		_route.insert((_route.begin() + waypoint),waypointLoc);
 
+	}
+	void FMS::removeWaypoint(int waypoint)
+	{
+		route_t route = this->getRoute();
+		if(waypoint >= route.size() || waypoint < 0)
+			throw error("Waypoint [" + std::to_string(waypoint) + "] is beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCSIG__, __LINE__);
+		if(waypoint < route.size()-1 && waypoint >= 1) // Do not need to check fringes[0..vector.size()] of vector
+			if(calcDistance(route[waypoint-1],route[waypoint+1]) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
+				throw error("Waypoint distance for insert [" + std::to_string(waypoint-1) + "] and [" + std::to_string(waypoint + 1) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+		_route.erase(_route.begin() + waypoint);
 	}
 	double calcDistance(pos_t const & loc1, pos_t const &  loc2)
 	{

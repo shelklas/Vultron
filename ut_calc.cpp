@@ -205,23 +205,66 @@ BOOST_AUTO_TEST_CASE(route_insert_waypoint)
 {
 	route_t path;
 	// Route with 4 waypoints
-	path.push_back(std::make_tuple(22.83695, -82.44141, 10)); 
+	path.push_back(std::make_tuple(22.83695, -82.44141, 10));
 	path.push_back(std::make_tuple(33.94336, -118.30078, 10));
 	path.push_back(std::make_tuple(51.78144, -125.50781, 10));
 	path.push_back(std::make_tuple(43.96119, -79.18945, 10));
 	FMS fms(path);
 
-	BOOST_CHECK_THROW(fms.insertNewWaypoint(std::make_tuple(22.83695, -82.44141, 10), -1), error);
-	BOOST_CHECK_THROW(fms.insertNewWaypoint(std::make_tuple(22.83695, -82.44141, 10), 6), error);
-	BOOST_CHECK_NO_THROW(fms.insertNewWaypoint(std::make_tuple(10.83695, -81.44141, 10), 4));
-	BOOST_CHECK_NO_THROW(fms.insertNewWaypoint(std::make_tuple(10.83695, -81.44141, 10), 0));
+	BOOST_CHECK_THROW(fms.insertWaypoint(std::make_tuple(22.83695, -82.44141, 10), -1), error);
+	BOOST_CHECK_THROW(fms.insertWaypoint(std::make_tuple(22.83695, -82.44141, 10), 6), error);
+	BOOST_CHECK_NO_THROW(fms.insertWaypoint(std::make_tuple(10.83695, -81.44141, 10), 4));
+	BOOST_CHECK_NO_THROW(fms.insertWaypoint(std::make_tuple(10.83695, -81.44141, 10), 0));
 
-	BOOST_CHECK_NO_THROW(fms.insertNewWaypoint(std::make_tuple(33.94336, -118.30065, 10), 2)); // Distance of 12m from NEXT
-	BOOST_CHECK_THROW(fms.insertNewWaypoint(std::make_tuple(33.94336, -118.30069, 10), 2),error); // Distance of 8m from NEXT
+	BOOST_CHECK_NO_THROW(fms.insertWaypoint(std::make_tuple(33.94336, -118.30065, 10), 2)); // Distance of 12m from NEXT
+	BOOST_CHECK_THROW(fms.insertWaypoint(std::make_tuple(33.94336, -118.30069, 10), 2), error); // Distance of 8m from NEXT
 
-	BOOST_CHECK_NO_THROW(fms.insertNewWaypoint(std::make_tuple(22.83695, -82.44152, 10), 2)); // Distance of 12m from BEFORE
-	BOOST_CHECK_THROW(fms.insertNewWaypoint(std::make_tuple(22.83695, -82.44133, 10), 2), error); // Distance of 8m from BEFORE
+	BOOST_CHECK_NO_THROW(fms.insertWaypoint(std::make_tuple(22.83695, -82.44152, 10), 2)); // Distance of 12m from BEFORE
+	BOOST_CHECK_THROW(fms.insertWaypoint(std::make_tuple(22.83695, -82.44133, 10), 2), error); // Distance of 8m from BEFORE
 
-	BOOST_CHECK_NO_THROW(fms.insertNewWaypoint(std::make_tuple(10.83695, -81.44152, 10), 0)); // Distance of 12m
-	BOOST_CHECK_THROW(fms.insertNewWaypoint(std::make_tuple(10.83695, -81.44159, 10), 0),error); // Distance of 8m
+	BOOST_CHECK_NO_THROW(fms.insertWaypoint(std::make_tuple(10.83695, -81.44152, 10), 0)); // Distance of 12m
+	BOOST_CHECK_THROW(fms.insertWaypoint(std::make_tuple(10.83695, -81.44159, 10), 0), error); // Distance of 8m
+}
+
+BOOST_AUTO_TEST_CASE(route_remove_waypoint)
+{
+	route_t path;
+	// Route with 4 waypoints
+	path.push_back(std::make_tuple(22.83695, -82.44141, 10));
+	path.push_back(std::make_tuple(33.94336, -118.30078, 10)); // Original
+	path.push_back(std::make_tuple(51.78144, -125.50781, 10));
+	path.push_back(std::make_tuple(33.94336, -118.30091, 10)); // 12 meters
+	path.push_back(std::make_tuple(43.96119, -79.18945, 10));
+	path.push_back(std::make_tuple(33.94336, -118.30100, 10)); // 8 meters
+	FMS fms(path);
+
+	// Outside range
+	BOOST_CHECK_THROW(fms.removeWaypoint(6), error);
+	BOOST_CHECK_THROW(fms.removeWaypoint(-1), error);
+
+	// Inside range
+
+	BOOST_CHECK_EQUAL((fms.getRoute()).size(), 6);
+	BOOST_CHECK_NO_THROW(fms.removeWaypoint(2));
+	BOOST_CHECK_EQUAL((fms.getRoute()).size(), 5);
+	BOOST_CHECK_THROW(fms.removeWaypoint(3), error);
+	BOOST_CHECK_EQUAL((fms.getRoute()).size(), 5);
+
+	fms.clearRoute();
+	path.clear();
+	path.push_back(std::make_tuple(22.83695, -82.44141, 10));
+	path.push_back(std::make_tuple(33.94336, -118.30078, 10));
+	path.push_back(std::make_tuple(51.78144, -125.50781, 10));
+	path.push_back(std::make_tuple(33.94336, -118.30091, 10));
+	fms.setRoute(path);
+	BOOST_CHECK_EQUAL((fms.getRoute()).size(), path.size());
+	BOOST_CHECK_NO_THROW(fms.removeWaypoint(3));
+	BOOST_CHECK(fms.getRoute()[2] == path[2]);
+	BOOST_CHECK(fms.getRoute()[2] == path[2]);
+	BOOST_CHECK_NO_THROW(fms.removeWaypoint(0));
+	BOOST_CHECK(fms.getRoute()[0] == path[1]);
+	BOOST_CHECK(fms.getRoute()[1] == path[2]);
+
+	/*utility::printRoutePositions(fms.getRoute());
+	std::cout << std::endl;*/
 }
