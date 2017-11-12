@@ -128,4 +128,9 @@ namespace vultron
 			tripBearing.push_back(calcBearing(*it, *(it + 1)));
 		return tripBearing;
 	}
+	double calcStallSpeed(double airDensity, double wingArea, double clMax, double weight,double gravity)
+	{
+		double vstall = sqrt((2 * weight * gravity) / (airDensity * wingArea * clMax));
+		return vstall;
+	}
 }

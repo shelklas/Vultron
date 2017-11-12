@@ -62,6 +62,17 @@ namespace vultron
 	*/
 	std::vector<double> calcTripBearing(route_t const & path);
 
+	/*
+	@Name: calcStallSpeed(double airDensity, double wingArea, double clMax, double weight)
+	@Return: Stall speed in [m/s]
+	@Get: airDensity = Air Density [kg/m^3]
+		  wingArea   = Wing Area [m^2]
+		  clMax		 = Coefficient of lift at stall
+		  weight     = weight of aircraft [kg]
+		  gravity    = Gravity force applied on aircraft
+	*/
+	double calcStallSpeed(double airDensity, double wingArea, double clMax, double weight,double gravity);
+
 
 	class FMS
 	{
