@@ -77,16 +77,16 @@ namespace vultron
 	class FMS
 	{
 	private:
-		// Vector of route plan.
-		// Stored as:
-		// Latitude(degrees) [-90..90]
-		// Longitude(degrees) [-180..180]
-		// Height(m) [no limits] ( Route waypoints MUST be at least 10m (meters) apart. )
+		/* Vector of route plan.
+		 Stored as:
+		 [0] Latitude(degrees) [-90..90]
+		 [1] Longitude(degrees) [-180..180]
+		 [2] Height(m) [no limits] ( Route waypoints MUST be at least 10m (meters) apart. )*/
 		route_t _route;
 
-		// Waypoint that aircraft is in route to.
-		// Stored as:
-		// Int
+		/* Waypoint that aircraft is in route to.
+		 Stored as:
+		 Int*/
 		int _waypoint = 0;
 
 		// Distance from aircraft to next waypoint. With respect to current location.
@@ -94,28 +94,28 @@ namespace vultron
 		// Meters [no limits]
 		double _waypointDistance = 0;
 
-		// Current location of aicraft in 3D space.
-		// Stored as:
-		// Latitude(degrees) [-90..90] 
-		// Longitude(degrees) [-180..180]
-		// Height(m) [no limits]
+		/* Current location of aicraft in 3D space.
+		 Stored as:
+		 [0] Latitude(degrees) [-90..90] 
+		 [1] Longitude(degrees) [-180..180]
+		 [2] Height(m) [no limits]*/
 		pos_t _loc;
 
-		// Current axis of aicraft.
-		// Stored as:
-		// Heading in Degrees [0..360]
-		// Pitch in Degrees [-45..45]
-		// Roll in Degrees [-45..45]
+		/* Current axis of aicraft.
+		 Stored as:
+		 [0] = Heading in Degrees [0..360]
+		 [1] = Pitch in Degrees [-45..45]
+		 [2] = Roll in Degrees [-45..45]*/
 		axis_t _axis;
 
-		// Direction of next waypoint. With respect to current location. 
-		// Stored as:
-		// Degrees [0..360]
+		/* Direction of next waypoint. With respect to current location. 
+		 Stored as:
+		 Degrees [0..360]*/
 		double _waypointBearing = 0;
 
-		// Current speed of aircraft. 
-		// Stored as:
-		// m/s [no limit (except for speed of light)]
+		/* Current speed of aircraft. 
+		 Stored as:
+		 m/s [no limit (except for speed of light)]*/
 		double _velocity = 0;
 
 
