@@ -120,6 +120,11 @@ namespace vultron
 		 Degrees [0..360]*/
 		double _waypointHeading = 0;
 
+		/* Rotation of aircraft
+		Stored as:
+		Degrees per Second [-30..30]*/
+		double _rateOfTurn = 0;
+
 		/* Current speed of aircraft. 
 		 Stored as:
 		 m/s [no limit (except for speed of light)]*/
@@ -166,6 +171,9 @@ namespace vultron
 				throw error("Bearing [" + std::to_string(bearing) + "] is beyond the acceptable range of [0..360].", __FUNCSIG__, __LINE__);
 		}
 		double getHeading() { return  std::get<0>(_axis); }
+
+		void setRateOfTurn();
+		double getRateOfTurn() { return _rateOfTurn; }
 
 		void nextWaypoint()
 		{

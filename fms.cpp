@@ -71,6 +71,10 @@ namespace vultron
 				throw error("Waypoint distance for insert [" + std::to_string(waypoint - 1) + "] and [" + std::to_string(waypoint + 1) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
 		_route.erase(_route.begin() + waypoint);
 	}
+	void FMS::setRateOfTurn()
+	{
+		_rateOfTurn = (1091 * tan(utility::toRadians(std::get<2>(_axis)))) / utility::toKnots(_velocity);
+	}
 	double calcDistance(pos_t const & loc1, pos_t const &  loc2)
 	{
 		// Calculate distance using Haversine formula

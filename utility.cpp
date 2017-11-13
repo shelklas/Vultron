@@ -20,6 +20,7 @@ namespace utility
 	double toMeter(double kilometer) { return kilometer * 1000; }
 	double toKilometersPerHour(double ms) { return ms * 3.6; }
 	double toMetersPerSecond(double kmh) { return kmh / 3.6; }
+	double toKnots(double metersPerSecond) { return metersPerSecond *1.94384449; }
 	double mod(double a, double b) { return a - b * floor(a / b); }
 	void printRoutePositions(vultron::route_t& route)
 	{

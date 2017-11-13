@@ -279,3 +279,33 @@ BOOST_AUTO_TEST_CASE(delta_direction)
 	BOOST_CHECK_EQUAL(calcDeltaDirection(180, 360), -180);
 	BOOST_CHECK_EQUAL(calcDeltaDirection(360, 360), 0);
 }
+
+BOOST_AUTO_TEST_CASE(rate_of_turn)
+{
+	FMS fms;
+	fms.setVelocity(51.4444); // 100 Knots
+	fms.setRoll(30);
+	fms.setRateOfTurn();
+	BOOST_CHECK_CLOSE(fms.getRateOfTurn(), 6.298, 0.1);
+
+	fms.setVelocity(77.1667); // 150 Knots
+	fms.setRateOfTurn();
+	BOOST_CHECK_CLOSE(fms.getRateOfTurn(), 4.198, 0.1);
+
+	fms.setVelocity(102.889); // 200 Knots
+	fms.setRateOfTurn();
+	BOOST_CHECK_CLOSE(fms.getRateOfTurn(), 3.14917, 0.1);
+
+	fms.setVelocity(77.1667); // 150 Knots
+	fms.setRoll(15);
+	fms.setRateOfTurn();
+	BOOST_CHECK_CLOSE(fms.getRateOfTurn(), 1.948, 0.1);
+
+	fms.setRoll(30);
+	fms.setRateOfTurn();
+	BOOST_CHECK_CLOSE(fms.getRateOfTurn(), 4.198, 0.1);
+
+	fms.setRoll(45);
+	fms.setRateOfTurn();
+	BOOST_CHECK_CLOSE(fms.getRateOfTurn(), 7.273, 0.1);
+}

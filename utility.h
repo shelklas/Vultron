@@ -14,6 +14,7 @@ namespace utility
 	double toDegrees(double radians);
 	double toMeter(double kilometer);
 	double toKilometer(double meter);
+	double toKnots(double metersPerSecond);
 	double mod(double x, double y);
 	void printRoutePositions(vultron::route_t & route);
 }
