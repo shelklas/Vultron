@@ -270,3 +270,12 @@ BOOST_AUTO_TEST_CASE(route_remove_waypoint)
 	/*utility::printRoutePositions(fms.getRoute());
 	std::cout << std::endl;*/
 }
+
+BOOST_AUTO_TEST_CASE(delta_direction)
+{
+	BOOST_CHECK_EQUAL(calcDeltaDirection(350, 16), -26);
+	BOOST_CHECK_EQUAL(calcDeltaDirection(350, 326), 24);
+	BOOST_CHECK_EQUAL(calcDeltaDirection(25, 300), 85);
+	BOOST_CHECK_EQUAL(calcDeltaDirection(180, 360), -180);
+	BOOST_CHECK_EQUAL(calcDeltaDirection(360, 360), 0);
+}

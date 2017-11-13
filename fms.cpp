@@ -47,28 +47,28 @@ namespace vultron
 			if (calcDistance(waypointLoc, route[0]) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
 				throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and [1] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
 		}
-		else if(waypoint == route.size())
+		else if (waypoint == route.size())
 		{
-			if (calcDistance( route[route.size()-1],waypointLoc) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
-				throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and ["+std::to_string(route.size())+"] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+			if (calcDistance(route[route.size() - 1], waypointLoc) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
+				throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and [" + std::to_string(route.size()) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
 		}
 		else
 		{
-			for(size_t i = waypoint -1;i < waypoint +1;++i)
+			for (size_t i = waypoint - 1; i < waypoint + 1; ++i)
 				if (calcDistance(route[i], waypointLoc) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
-					throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and ["+std::to_string(i)+"] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+					throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and [" + std::to_string(i) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
 		}
-		_route.insert((_route.begin() + waypoint),waypointLoc);
+		_route.insert((_route.begin() + waypoint), waypointLoc);
 
 	}
 	void FMS::removeWaypoint(int waypoint)
 	{
 		route_t route = this->getRoute();
-		if(waypoint >= route.size() || waypoint < 0)
+		if (waypoint >= route.size() || waypoint < 0)
 			throw error("Waypoint [" + std::to_string(waypoint) + "] is beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCSIG__, __LINE__);
-		if(waypoint < route.size()-1 && waypoint >= 1) // Do not need to check fringes[0..vector.size()] of vector
-			if(calcDistance(route[waypoint-1],route[waypoint+1]) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
-				throw error("Waypoint distance for insert [" + std::to_string(waypoint-1) + "] and [" + std::to_string(waypoint + 1) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+		if (waypoint < route.size() - 1 && waypoint >= 1) // Do not need to check fringes[0..vector.size()] of vector
+			if (calcDistance(route[waypoint - 1], route[waypoint + 1]) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
+				throw error("Waypoint distance for insert [" + std::to_string(waypoint - 1) + "] and [" + std::to_string(waypoint + 1) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
 		_route.erase(_route.begin() + waypoint);
 	}
 	double calcDistance(pos_t const & loc1, pos_t const &  loc2)
@@ -128,9 +128,15 @@ namespace vultron
 			tripBearing.push_back(calcBearing(*it, *(it + 1)));
 		return tripBearing;
 	}
-	double calcStallSpeed(double airDensity, double wingArea, double clMax, double weight,double gravity)
+	double calcStallSpeed(double airDensity, double wingArea, double clMax, double weight, double gravity)
 	{
 		double vstall = sqrt((2 * weight * gravity) / (airDensity * wingArea * clMax));
 		return vstall;
+	}
+	double calcDeltaDirection(double heading, double waypointHeading)
+	{
+		double clockwise = heading - waypointHeading;
+		double counterClockwise = heading >= waypointHeading ? (heading-360) - waypointHeading: heading - (waypointHeading -360);
+		return abs(clockwise) <= abs(counterClockwise) ? clockwise : counterClockwise; // Test what direction is closer
 	}
 }

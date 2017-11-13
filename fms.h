@@ -63,6 +63,13 @@ namespace vultron
 	std::vector<double> calcTripBearing(route_t const & path);
 
 	/*
+	@Name: calcDeltaDirection(double, double)
+	@Return: Bearing in [Degrees] [-180..180]. Negative = Counter clockwise (left) turn. Postive = Clockwise (right) turn
+	@Get: Current heading, desired heading
+	*/
+	double calcDeltaDirection(double heading, double waypointHeading);
+
+	/*
 	@Name: calcStallSpeed(double airDensity, double wingArea, double clMax, double weight)
 	@Return: Stall speed in [m/s]
 	@Get: airDensity = Air Density [kg/m^3]
@@ -89,9 +96,9 @@ namespace vultron
 		 Int*/
 		int _waypoint = 0;
 
-		// Distance from aircraft to next waypoint. With respect to current location.
-		// Stored as:
-		// Meters [no limits]
+		/* Distance from aircraft to next waypoint. With respect to current location.
+		 Stored as:
+		 Meters [no limits]*/
 		double _waypointDistance = 0;
 
 		/* Current location of aicraft in 3D space.
@@ -111,7 +118,7 @@ namespace vultron
 		/* Direction of next waypoint. With respect to current location. 
 		 Stored as:
 		 Degrees [0..360]*/
-		double _waypointBearing = 0;
+		double _waypointHeading = 0;
 
 		/* Current speed of aircraft. 
 		 Stored as:
@@ -176,11 +183,11 @@ namespace vultron
 		}
 		int getWaypoint() { return _waypoint; }
 
-		void setWaypointBearing() { _waypointBearing = calcBearing(_loc, _route[_waypoint]); }
+		void setWaypointBearing() { _waypointHeading = calcBearing(_loc, _route[_waypoint]); }
 		double getWaypointDistance() { return _waypointDistance; }
 
 		void setWaypointDistance() { _waypointDistance = calcDistance(_loc, _route[_waypoint]); }
-		double getWaypointBearing() { return _waypointBearing; }
+		double getWaypointBearing() { return _waypointHeading; }
 	};
 
 
