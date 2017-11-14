@@ -78,16 +78,15 @@ namespace vultron
 	void FMS::update()
 	{
 		/*
-		Need GPS and Sensor class before implementing:
-		 setPitch
-		 setRoll
-		 setHeading
+		Need GPS and Sensor class data in order to update FMS.
 		 */
 		gps.update();
+		sensor.update();
 		if (this->getWaypointDistance() < MIN_DISTANCE_TO_WAYPOINT)
 			this->nextWaypoint();
 		this->setWaypointDistance();
 		this->setWaypointHeading();
+		this->setAxis(sensor.getAxis());
 		this->setLoc(gps.getLoc());
 		this->setVelocity(gps.getVelocity());
 		this->setRateOfTurn();

@@ -30,6 +30,9 @@
     <ClCompile Include="gps.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utility.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sensor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

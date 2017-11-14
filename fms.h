@@ -8,6 +8,7 @@
 #include "utility"
 #include "error.h"
 #include "gps.h"
+#include "sensor.h"
 #include <vector>
 #include <tuple>
 
@@ -132,7 +133,15 @@ namespace vultron
 		 m/s [no limit (except for speed of light)]*/
 		double _velocity = 0;
 
+		/* GPS class to allow for aircraft GPS getting updated 
+		   Class has ability to interface directly with the GPS.
+		*/
 		GPS gps;
+
+		/* Sensor class has the ability to interface directly
+		   with on board sensors, such as pitol tube, and accelerometer.
+		*/
+		Sensor sensor;
 
 	public:
 		FMS(route_t const & route, pos_t const & loc, double const & bearing);
@@ -144,6 +153,8 @@ namespace vultron
 		void clearRoute() { _route.clear(); }
 		void insertWaypoint(pos_t waypointLoc, int waypoint);
 		void removeWaypoint(int waypoint);
+
+		void setAxis(axis_t axis) { _axis = axis; }
 
 		void setAltitude(double height) { std::get<2>(_loc) = height; }
 		double getAltitude() { return std::get<2>(_loc); }
