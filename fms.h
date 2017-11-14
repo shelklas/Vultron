@@ -7,6 +7,7 @@
 #pragma once
 #include "utility"
 #include "error.h"
+#include "gps.h"
 #include <vector>
 #include <tuple>
 
@@ -17,6 +18,7 @@ namespace vultron
 	using route_t = std::vector<pos_t>;
 
 	double constexpr MIN_DISTANCE_BETWEEN_WAYPOINTS = 10;
+	double constexpr MIN_DISTANCE_TO_WAYPOINT = 3;
 
 	// Helper functions
 
@@ -198,6 +200,8 @@ namespace vultron
 		double getWaypointHeading() { return _waypointHeading; }
 
 		void update();
+
+
 	};
 
 

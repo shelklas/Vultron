@@ -83,8 +83,8 @@ namespace vultron
 		 setVelocity
 		 setPitch
 		 setRoll
-		 setLoc
 		 setHeading
+		 setLoc
 		 */
 		if (this->getWaypointDistance() < MIN_DISTANCE_TO_WAYPOINT)
 			this->nextWaypoint();

@@ -149,12 +149,14 @@
   <ItemGroup>
     <ClCompile Include="error.cpp" />
     <ClCompile Include="fms.cpp" />
+    <ClCompile Include="gps.cpp" />
     <ClCompile Include="utility.cpp" />
     <ClCompile Include="ut_calc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="error.h" />
     <ClInclude Include="fms.h" />
+    <ClInclude Include="gps.h" />
     <ClInclude Include="utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
