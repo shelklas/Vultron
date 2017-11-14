@@ -21,7 +21,7 @@ namespace vultron
 		double getVelocity() { return _velocity; }
 
 		void setLoc();
-		void setHeight();
 		void setVelocity();
+		void update();
 	};
 }

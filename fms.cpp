@@ -79,17 +79,17 @@ namespace vultron
 	{
 		/*
 		Need GPS and Sensor class before implementing:
-		 setAltitude
-		 setVelocity
 		 setPitch
 		 setRoll
 		 setHeading
-		 setLoc
 		 */
+		gps.update();
 		if (this->getWaypointDistance() < MIN_DISTANCE_TO_WAYPOINT)
 			this->nextWaypoint();
 		this->setWaypointDistance();
 		this->setWaypointHeading();
+		this->setLoc(gps.getLoc());
+		this->setVelocity(gps.getVelocity());
 		this->setRateOfTurn();
 	}
 	double calcDistance(pos_t const & loc1, pos_t const &  loc2)

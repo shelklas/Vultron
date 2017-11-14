@@ -13,10 +13,12 @@ namespace vultron
 	void GPS::setLoc()
 	{
 	}
-	void GPS::setHeight()
-	{
-	}
 	void GPS::setVelocity()
 	{
+	}
+	void GPS::update()
+	{
+		this->setLoc();
+		this->setVelocity();
 	}
 }
