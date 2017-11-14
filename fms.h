@@ -132,6 +132,7 @@ namespace vultron
 		 m/s [no limit (except for speed of light)]*/
 		double _velocity = 0;
 
+		GPS gps;
 
 	public:
 		FMS(route_t const & route, pos_t const & loc, double const & bearing);

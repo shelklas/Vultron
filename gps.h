@@ -8,19 +8,19 @@ namespace vultron
 	class GPS
 	{
 	private:
-		pos_t _pos;
+		pos_t _loc;
 		double _velocity;
 	public:
 		GPS(pos_t pos);
 		GPS();
 
-		pos_t getPos() { return _pos; }
-		double getLongitude() { return std::get<0>(_pos); }
-		double getLatitude() { return std::get<1>(_pos); }
-		double getHeight() { return std::get<2>(_pos); }
+		pos_t getLoc() { return _loc; }
+		double getLongitude() { return std::get<0>(_loc); }
+		double getLatitude() { return std::get<1>(_loc); }
+		double getHeight() { return std::get<2>(_loc); }
 		double getVelocity() { return _velocity; }
 
-		void setPos();
+		void setLoc();
 		void setHeight();
 		void setVelocity();
 	};

@@ -6,11 +6,11 @@ namespace vultron
 	{
 
 	}
-	GPS::GPS(pos_t pos)
+	GPS::GPS(pos_t loc)
 	{
-		_pos = pos;
+		_loc = loc;
 	}
-	void GPS::setPos()
+	void GPS::setLoc()
 	{
 	}
 	void GPS::setHeight()
