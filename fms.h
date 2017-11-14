@@ -163,12 +163,12 @@ namespace vultron
 		}
 		pos_t getLoc() { return _loc; }
 
-		void setHeading(double bearing)
+		void setHeading(double heading)
 		{
-			if (bearing <= 360 && bearing >= 0)
-				std::get<0>(_axis) = bearing;
+			if (heading <= 360 && heading >= 0)
+				std::get<0>(_axis) = heading;
 			else
-				throw error("Bearing [" + std::to_string(bearing) + "] is beyond the acceptable range of [0..360].", __FUNCSIG__, __LINE__);
+				throw error("Bearing [" + std::to_string(heading) + "] is beyond the acceptable range of [0..360].", __FUNCSIG__, __LINE__);
 		}
 		double getHeading() { return  std::get<0>(_axis); }
 
@@ -191,11 +191,13 @@ namespace vultron
 		}
 		int getWaypoint() { return _waypoint; }
 
-		void setWaypointBearing() { _waypointHeading = calcBearing(_loc, _route[_waypoint]); }
+		void setWaypointHeading() { _waypointHeading = calcBearing(_loc, _route[_waypoint]); }
 		double getWaypointDistance() { return _waypointDistance; }
 
 		void setWaypointDistance() { _waypointDistance = calcDistance(_loc, _route[_waypoint]); }
-		double getWaypointBearing() { return _waypointHeading; }
+		double getWaypointHeading() { return _waypointHeading; }
+
+		void update();
 	};
 
 

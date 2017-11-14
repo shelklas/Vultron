@@ -74,6 +74,23 @@ namespace vultron
 	void FMS::setRateOfTurn()
 	{
 		_rateOfTurn = (1091 * tan(utility::toRadians(std::get<2>(_axis)))) / utility::toKnots(_velocity);
+	}	
+	void FMS::update()
+	{
+		/*
+		Need GPS and Sensor class before implementing:
+		 setAltitude
+		 setVelocity
+		 setPitch
+		 setRoll
+		 setLoc
+		 setHeading
+		 */
+		if (this->getWaypointDistance() < MIN_DISTANCE_TO_WAYPOINT)
+			this->nextWaypoint();
+		this->setWaypointDistance();
+		this->setWaypointHeading();
+		this->setRateOfTurn();
 	}
 	double calcDistance(pos_t const & loc1, pos_t const &  loc2)
 	{
@@ -143,4 +160,5 @@ namespace vultron
 		double counterClockwise = heading >= waypointHeading ? (heading-360) - waypointHeading: heading - (waypointHeading -360);
 		return abs(clockwise) <= abs(counterClockwise) ? clockwise : counterClockwise; // Test what direction is closer
 	}
+
 }

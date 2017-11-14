@@ -118,9 +118,9 @@ BOOST_AUTO_TEST_CASE(bearing_distance_function)
 	path.push_back(std::make_tuple(43.67631, -79.63440, 10));
 	fms.setLoc(std::make_tuple(43.38110, -80.95924, 10));
 	fms.setRoute(path);
-	fms.setWaypointBearing();
+	fms.setWaypointHeading();
 	fms.setWaypointDistance();
-	BOOST_CHECK_CLOSE(fms.getWaypointBearing(), 72.517, 0.1);
+	BOOST_CHECK_CLOSE(fms.getWaypointHeading(), 72.517, 0.1);
 	BOOST_CHECK_CLOSE(utility::toKilometer(fms.getWaypointDistance()), 112.006, 0.5);
 }
 BOOST_AUTO_TEST_CASE(setLoc_out_of_range)
