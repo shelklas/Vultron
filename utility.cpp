@@ -8,7 +8,7 @@
 #include <cmath>
 #include <vector>
 #include <ostream>
-#include <string>
+#include <string.h>
 #include <iostream>
 
 namespace utility

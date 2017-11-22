@@ -83,6 +83,7 @@ namespace vultron
 	*/
 	double calcStallSpeed(double airDensity, double wingArea, double clMax, double weight,double gravity);
 
+    double calcPitch(double currentHeight,double waypointHeight, double waypointDistance);
 
 	class FMS
 	{
@@ -136,17 +137,19 @@ namespace vultron
 		/* GPS class to allow for aircraft GPS getting updated 
 		   Class has ability to interface directly with the GPS.
 		*/
-		GPS gps;
+		GPS _gps;
 
 		/* Sensor class has the ability to interface directly
 		   with on board sensors, such as pitol tube, and accelerometer.
 		*/
-		Sensor sensor;
+		Sensor _sensor;
+
+        double _time;
 
 	public:
 		FMS(route_t const & route, pos_t const & loc, double const & bearing);
 		FMS(route_t const & route);
-		FMS() {} // For dev testing
+		FMS();  // For dev testing
 
 		void setRoute(route_t const & route);
 		route_t getRoute() { return _route; }
@@ -162,7 +165,7 @@ namespace vultron
 		void setVelocity(double velocity) { _velocity = velocity; }
 		double getVelocity() { return _velocity; }
 
-		void setPitch(double pitch) { std::get<1>(_axis) = pitch; }
+        void setPitch() {std::get<1>(_axis) = calcPitch(std::get<2>(_loc),std::get<2>(_route[_waypoint]),_waypointDistance);}
 		double getPitch() { return  std::get<1>(_axis); }
 
 		void setRoll(double roll) { std::get<2>(_axis) = roll; }
@@ -173,7 +176,7 @@ namespace vultron
 			if ((std::get<0>(loc) <= 90 && std::get<0>(loc) >= -90) && (std::get<1>(loc) <= 180 && std::get<1>(loc) >= -180))
 				_loc = loc;
 			else
-				throw error("Location [" + std::to_string(std::get<0>(loc)) + "] [" + std::to_string(std::get<1>(loc)) + "] is beyond the acceptable range of [-90..90] [-180..180].", __FUNCSIG__, __LINE__);
+				throw error("Location [" + std::to_string(std::get<0>(loc)) + "] [" + std::to_string(std::get<1>(loc)) + "] is beyond the acceptable range of [-90..90] [-180..180].", __FUNCTION__, __LINE__);
 		}
 		pos_t getLoc() { return _loc; }
 
@@ -182,7 +185,7 @@ namespace vultron
 			if (heading <= 360 && heading >= 0)
 				std::get<0>(_axis) = heading;
 			else
-				throw error("Bearing [" + std::to_string(heading) + "] is beyond the acceptable range of [0..360].", __FUNCSIG__, __LINE__);
+				throw error("Bearing [" + std::to_string(heading) + "] is beyond the acceptable range of [0..360].", __FUNCTION__, __LINE__);
 		}
 		double getHeading() { return  std::get<0>(_axis); }
 
@@ -194,14 +197,14 @@ namespace vultron
 			if (static_cast<size_t>(_waypoint) < _route.size())
 				_waypoint++;
 			else
-				throw error("Waypoint [" + std::to_string(_waypoint + 1) + "] beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCSIG__, __LINE__);
+				throw error("Waypoint [" + std::to_string(_waypoint + 1) + "] beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCTION__, __LINE__);
 		}
 		void setWaypoint(int waypoint)
 		{
 			if (waypoint <= _route.size() && (waypoint >= 0))
 				_waypoint = waypoint;
 			else
-				throw error("Waypoint [" + std::to_string(waypoint) + "] beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCSIG__, __LINE__);
+				throw error("Waypoint [" + std::to_string(waypoint) + "] beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCTION__, __LINE__);
 		}
 		int getWaypoint() { return _waypoint; }
 
@@ -210,6 +213,9 @@ namespace vultron
 
 		void setWaypointDistance() { _waypointDistance = calcDistance(_loc, _route[_waypoint]); }
 		double getWaypointHeading() { return _waypointHeading; }
+
+        double getTime() { return _time; }
+        void setTime(double time) { _time = time; }
 
 		void update();
 

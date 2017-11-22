@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE VultronUnitTest
+/*#define BOOST_TEST_MODULE VultronUnitTest
 #include "fms.h"
 #include "utility.h"
 #include <boost/test/auto_unit_test.hpp>
@@ -308,4 +308,6 @@ BOOST_AUTO_TEST_CASE(rate_of_turn)
 	fms.setRoll(45);
 	fms.setRateOfTurn();
 	BOOST_CHECK_CLOSE(fms.getRateOfTurn(), 7.273, 0.1);
+
 }
+*/

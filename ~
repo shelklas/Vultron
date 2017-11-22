@@ -1,0 +1,37 @@
+#include "error.h"
+#include "gps.h"
+#include <tuple>
+#include <libgpsmm.h>
+#include <unistd.h>
+namespace vultron
+{
+    void GPS::getGPSData()
+	{
+        if(_GPS.stream(WATCH_ENABLE | WATCH_JSON) == NULL)
+            throw error("NO GPSD RUNNING",__FUNCTION__,__LINE__);
+        struct gps_data_t *newdata;
+        if((newdata = _GPS.read()) == NULL)
+             throw error("GPS read error",__FUNCTION__,__LINE__);
+        if(isnan(newdata->fix.latitude))
+        {
+            while(true)
+            {
+                std::cout <<"GPS data is stale... Getting location..." << std::endl;
+                struct gps_data_t *data;
+                if(!isnan(data->fix.latitude))
+                {
+                    _loc = std::make_tuple(newdata->fix.latitude,newdata->fix.longitude,newdata->fix.altitude);
+                    _velocity = newdata->fix.speed;
+                    return;
+                }
+            }
+        }
+        _loc = std::make_tuple(newdata->fix.latitude,newdata->fix.longitude,newdata->fix.altitude);
+        _velocity = newdata->fix.speed;
+	}
+	void GPS::update()
+	{
+		this->getGPSData();
+	}
+}
+

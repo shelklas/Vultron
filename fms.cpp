@@ -7,7 +7,7 @@
 
 #include "fms.h"
 #include "utility.h"
-#include <math.h>
+#include <cmath>
 
 
 namespace vultron
@@ -17,11 +17,18 @@ namespace vultron
 		this->setRoute(route);
 		this->setHeading(bearing);
 		this->setLoc(loc);
+        this->setWaypointDistance();
+        this->setWaypointHeading();
 	}
 	FMS::FMS(route_t const & route)
 	{
 		this->setRoute(route);
+        this->setWaypointDistance();
+        this->setWaypointHeading();
 	}
+    FMS::FMS()
+    { 
+    }
 	void FMS::setRoute(route_t const & route)
 	{
 		// User may give a blank route
@@ -29,34 +36,34 @@ namespace vultron
 		// Check if waypoints are less than set minimum distance apart
 		for (route_t::const_iterator it = route.begin(); it != route.end() - 1; ++it)
 			if (calcDistance(*it, *(it + 1)) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
-				throw error("Waypoint distance for waypoints [" + std::to_string(std::distance(route.begin(), it)) + "] and [" + std::to_string(std::distance(route.begin(), it + 1)) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+				throw error("Waypoint distance for waypoints [" + std::to_string(std::distance(route.begin(), it)) + "] and [" + std::to_string(std::distance(route.begin(), it + 1)) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCTION__, __LINE__);
 
 		// Check if waypoints are outside range of longitude and latitude coordinates
 		for (route_t::const_iterator it = route.begin(); it != route.end(); ++it)
 			if (!((std::get<0>(*it) <= 90 && std::get<0>(*it) >= -90) && (std::get<1>(*it) <= 180 && std::get<1>(*it) >= -180)))
-				throw error("Waypoint [" + std::to_string(std::distance(route.begin(), it)) + "] with values [" + std::to_string(std::get<0>(*it)) + "] [" + std::to_string(std::get<1>(*it)) + "] is beyond the acceptable range of [-90..90] [-180..180].", __FUNCSIG__, __LINE__);
+				throw error("Waypoint [" + std::to_string(std::distance(route.begin(), it)) + "] with values [" + std::to_string(std::get<0>(*it)) + "] [" + std::to_string(std::get<1>(*it)) + "] is beyond the acceptable range of [-90..90] [-180..180].", __FUNCTION__, __LINE__);
 		_route = route;
 	}
 	void FMS::insertWaypoint(pos_t waypointLoc, int waypoint)
 	{
 		route_t route = this->getRoute();
 		if (waypoint > route.size() || (waypoint < 0))
-			throw error("Waypoint [" + std::to_string(waypoint) + "] is beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCSIG__, __LINE__);
+			throw error("Waypoint [" + std::to_string(waypoint) + "] is beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCTION__, __LINE__);
 		if (waypoint == 0)
 		{
 			if (calcDistance(waypointLoc, route[0]) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
-				throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and [1] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+				throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and [1] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].",__FUNCTION__, __LINE__);
 		}
 		else if (waypoint == route.size())
 		{
 			if (calcDistance(route[route.size() - 1], waypointLoc) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
-				throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and [" + std::to_string(route.size()) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+				throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and [" + std::to_string(route.size()) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCTION__, __LINE__);
 		}
 		else
 		{
 			for (size_t i = waypoint - 1; i < waypoint + 1; ++i)
 				if (calcDistance(route[i], waypointLoc) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
-					throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and [" + std::to_string(i) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+					throw error("Waypoint distance for insert [" + std::to_string(waypoint) + "] and [" + std::to_string(i) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCTION__, __LINE__);
 		}
 		_route.insert((_route.begin() + waypoint), waypointLoc);
 
@@ -65,10 +72,10 @@ namespace vultron
 	{
 		route_t route = this->getRoute();
 		if (waypoint >= route.size() || waypoint < 0)
-			throw error("Waypoint [" + std::to_string(waypoint) + "] is beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCSIG__, __LINE__);
+			throw error("Waypoint [" + std::to_string(waypoint) + "] is beyond route size of [" + std::to_string(_route.size()) + "].", __FUNCTION__, __LINE__);
 		if (waypoint < route.size() - 1 && waypoint >= 1) // Do not need to check fringes[0..vector.size()] of vector
 			if (calcDistance(route[waypoint - 1], route[waypoint + 1]) < MIN_DISTANCE_BETWEEN_WAYPOINTS)
-				throw error("Waypoint distance for insert [" + std::to_string(waypoint - 1) + "] and [" + std::to_string(waypoint + 1) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCSIG__, __LINE__);
+				throw error("Waypoint distance for insert [" + std::to_string(waypoint - 1) + "] and [" + std::to_string(waypoint + 1) + "] exceed minimum distance between waypoints of [" + std::to_string(MIN_DISTANCE_BETWEEN_WAYPOINTS) + "m].", __FUNCTION__, __LINE__);
 		_route.erase(_route.begin() + waypoint);
 	}
 	void FMS::setRateOfTurn()
@@ -80,15 +87,17 @@ namespace vultron
 		/*
 		Need GPS and Sensor class data in order to update FMS.
 		 */
-		gps.update();
-		sensor.update();
+		_gps.update();
+		_sensor.update();
 		if (this->getWaypointDistance() < MIN_DISTANCE_TO_WAYPOINT)
 			this->nextWaypoint();
 		this->setWaypointDistance();
 		this->setWaypointHeading();
-		this->setAxis(sensor.getAxis());
-		this->setLoc(gps.getLoc());
-		this->setVelocity(gps.getVelocity());
+        this->setPitch();
+        this->setTime(_gps.getTime());
+		this->setAxis(_sensor.getAxis());
+		this->setLoc(_gps.getLoc());
+		this->setVelocity(_gps.getVelocity());
 		this->setRateOfTurn();
 	}
 	double calcDistance(pos_t const & loc1, pos_t const &  loc2)
@@ -159,5 +168,10 @@ namespace vultron
 		double counterClockwise = heading >= waypointHeading ? (heading-360) - waypointHeading: heading - (waypointHeading -360);
 		return abs(clockwise) <= abs(counterClockwise) ? clockwise : counterClockwise; // Test what direction is closer
 	}
-
+    double calcPitch(double currentHeight, double waypointHeight, double waypointDistance)
+    {
+        double deltaHeight = waypointHeight - currentHeight;
+        double pitchAngle = utility::toDegrees(asin(deltaHeight / waypointDistance));
+        return pitchAngle;
+    }
 }
