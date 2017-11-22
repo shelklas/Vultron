@@ -17,6 +17,6 @@ sudo apt-get install gpsd gpsd-clients
 ```
 
 #### Assumptions
-The program assums the GPS is correctly installed on pin `/dev/ttyAMA0`. If this is not done,
+The program assumes the GPS is correctly installed on pin `/dev/ttyAMA0`. If this is not done,
 the program will NOT be able find the GPS module. You may use any GPS that is able to be 
 processed by GPSD.
