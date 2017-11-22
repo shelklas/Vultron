@@ -9,11 +9,16 @@ Fully integrated Flight Management System. Allows for automated flight guidance 
 
 * [GPSD](http://www.catb.org/gpsd/) - GPS Framework used
 * [Adafruit BNO055](https://github.com/adafruit/Adafruit_BNO055) - 9 DOF Orientation Sensor Driver
-
+* [libgps-dev](http://www.catb.org/gpsd/libgps.html) - Used to communicate with GPSD
 ### Installation
+To run on your computer:
+```
+git clone https://github.com/shelklas/Vultron
+```
+
 The following programs must be installed:
 ```
-sudo apt-get install gpsd gpsd-clients
+sudo apt-get install gpsd gpsd-clients libgps-dev
 ```
 
 #### Assumptions
