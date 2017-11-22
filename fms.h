@@ -158,7 +158,7 @@ namespace vultron
 		void removeWaypoint(int waypoint);
 
 		void setAxis(axis_t axis) { _axis = axis; }
-
+		axis_t getAxis(){ return _axis; }
 		void setAltitude(double height) { std::get<2>(_loc) = height; }
 		double getAltitude() { return std::get<2>(_loc); }
 

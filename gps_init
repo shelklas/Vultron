@@ -10,7 +10,7 @@ else
     echo "GPSD WAS NOT RUNNING ALREADY"
 fi
 
-if sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock; then
+if sudo gpsd /dev/ttyS0 -F /var/run/gpsd.sock; then
     echo "SOCKET INITIALIZED"
 else
     echo "SOCKET NOT INITIALIZED!"
