@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if echo -e "\$PMTK251,57600*2C\r\m" > /dev/ttyAMA0; then
+	echo "BAUD RATE SET TO 57600"
+else
+	echo "BAUD RATE NOT SET"
+fi
+
+if echo -e "\$PMTK220,200*2C\r\n" > /dev/ttyAMA0; then
+	echo "REFRESH RATE SET TO 200ms"
+else
+	echo "REFRESH RATE NOT SET!"
+fi
+
+if gpsctl -c 0.2; then
+	echo "REFRESH RATE SET IN GPSD"
+else
+	echo "REFRESH RATE NOT SET IN GPSD"
+fi
+
+
